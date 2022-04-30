@@ -1,10 +1,10 @@
 import Status from "/Status.js";
-import Aluno from "/Aluno.js";
+import Filme from "/Filme.js";
 import ViewerError from "/ViewerError.js";
 
 //------------------------------------------------------------------------//
 
-export default class ViewerAluno {
+export default class ViewerFilme {
 
   #ctrl;
   
@@ -28,11 +28,10 @@ export default class ViewerAluno {
     this.btOk        = this.obterElemento('btOk');
     this.btCancelar  = this.obterElemento('btCancelar');
 
-    this.tfMatricula = this.obterElemento('tfMatricula');
-    this.tfCpf       = this.obterElemento('tfCpf');
-    this.tfNome      = this.obterElemento('tfNome');
-    this.tfEmail     = this.obterElemento('tfEmail');
-    this.tfTelefone  = this.obterElemento('tfTelefone');
+    this.tfCodigo = this.obterElemento('tfCodigo');
+    this.tfTitulo       = this.obterElemento('tfTitulo');
+    this.tfGenero      = this.obterElemento('tfGenero');
+    this.tfAno     = this.obterElemento('tfAno');
       
     this.btPrimeiro.onclick = fnBtPrimeiro; 
     this.btProximo.onclick = fnBtProximo; 
@@ -67,24 +66,22 @@ export default class ViewerAluno {
 
 //------------------------------------------------------------------------//
   
-  apresentar(pos, qtde, aluno) {    
+  apresentar(pos, qtde, filme) {    
     
     this.configurarNavegacao( pos <= 1 , pos == qtde );   
 
-    if(aluno == null) {
-      this.tfMatricula.value = "";
-      this.tfCpf.value       = "";
-      this.tfNome.value      = "";
-      this.tfEmail.value     = "";
-      this.tfTelefone.value  = "";
-      this.divAviso.innerHTML = " Número de Alunos: 0";
+    if(filme == null) {
+      this.tfCodigo.value = "";
+      this.tfTitulo.value       = "";
+      this.tfGenero.value      = "";
+      this.tfAno.value     = "";
+      this.divAviso.innerHTML = " Número de Filmes: 0";
     } else {
-      this.tfMatricula.value = aluno.getMatricula();
-      this.tfCpf.value       = aluno.getCpf();
-      this.tfNome.value      = aluno.getNome();
-      this.tfEmail.value     = aluno.getEmail();
-      this.tfTelefone.value  = aluno.getTelefone();
-      this.divAviso.innerHTML = "Posição: " + pos + " | Número de Alunos: " + qtde;
+      this.tfCodigo.value = filme.getCodigo();
+      this.tfTitulo.value       = filme.getTitulo();
+      this.tfGenero.value      = filme.getGenero();
+      this.tfAno.value     = filme.getAno();
+      this.divAviso.innerHTML = "Posição: " + pos + " | Número de Filmes: " + qtde;
     }
   }
 
@@ -105,36 +102,33 @@ export default class ViewerAluno {
     this.divDialogo.hidden = false; 
     
     if(operacao != Status.EXCLUINDO) {
-      this.tfCpf.disabled = false;
-      this.tfNome.disabled = false;
-      this.tfEmail.disabled = false;
-      this.tfTelefone.disabled = false;
+      this.tfTitulo.disabled = false;
+      this.tfGenero.disabled = false;
+      this.tfAno.disabled = false;
       this.divAviso.innerHTML = "";      
     } else {
       this.divAviso.innerHTML = "Deseja excluir este registro?";      
     }
     if(operacao == Status.INCLUINDO) {
-      this.tfMatricula.disabled = false;
-      this.tfMatricula.value = "";
-      this.tfCpf.value = "";
-      this.tfNome.value = "";
-      this.tfEmail.value = "";
-      this.tfTelefone.value = "";
+      this.tfCodigo.disabled = false;
+      this.tfCodigo.value = "";
+      this.tfTitulo.value = "";
+      this.tfGenero.value = "";
+      this.tfAno.value = "";
     }
   }
 
 //------------------------------------------------------------------------//
   
   statusApresentacao() { 
-    this.tfCpf.disabled = true;
+    this.tfTitulo.disabled = true;
     this.divNavegar.hidden = false;
     this.divComandos.hidden = false;
     this.divDialogo.hidden = true; 
-    this.tfMatricula.disabled = true;
-    this.tfCpf.disabled = true;
-    this.tfNome.disabled = true;
-    this.tfEmail.disabled = true;
-    this.tfTelefone.disabled = true;
+    this.tfCodigo.disabled = true;
+    this.tfTitulo.disabled = true;
+    this.tfGenero.disabled = true;
+    this.tfAno.disabled = true;
   }
 
 }
@@ -204,22 +198,21 @@ function fnBtExcluir() {
 //------------------------------------------------------------------------//
 
 function fnBtOk() {
-  const matricula = this.viewer.tfMatricula.value;
-  const cpf = this.viewer.tfCpf.value;
-  const nome = this.viewer.tfNome.value;
-  const email = this.viewer.tfEmail.value;
-  const telefone = this.viewer.tfTelefone.value;
+  const codigo = this.viewer.tfCodigo.value;
+  const titulo = this.viewer.tfTitulo.value;
+  const genero = this.viewer.tfGenero.value;
+  const ano = this.viewer.tfAno.value;
     
   // Como defini que o método "efetivar" é um dos métodos incluir, excluir ou alterar
   // não estou precisando colocar os ninhos de IF abaixo.
-  this.viewer.getCtrl().efetivar(matricula, cpf, nome, email, telefone); 
+  this.viewer.getCtrl().efetivar(codigo, titulo, genero, ano); 
 
   // if(this.viewer.getCtrl().getStatus() == Status.INCLUINDO) {
-  //  this.viewer.getCtrl().fnEfetivar(matricula, cpf, nome, email, telefone); 
+  //  this.viewer.getCtrl().fnEfetivar(codigo, titulo, genero, ano); 
   //} else if(this.viewer.getCtrl().getStatus() == Status.ALTERANDO) {
-  //  this.viewer.getCtrl().alterar(matricula, cpf, nome, email, telefone); 
+  //  this.viewer.getCtrl().alterar(codigo, titulo, genero, ano); 
   //} else if(this.viewer.getCtrl().getStatus() == Status.EXCLUINDO) {
-  //  this.viewer.getCtrl().excluir(matricula, cpf, nome, email, telefone); 
+  //  this.viewer.getCtrl().excluir(codigo, titulo, genero, ano); 
   //}
 }
 

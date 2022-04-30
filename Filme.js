@@ -112,13 +112,13 @@ export default class Filme {
 
   //-----------------------------------------------------------------------------------------//
 
-  static validarTitulo(strTitulo) {
-    if(ti == null || ti == "" || ti == undefined)
+  static validarTitulo(titulo) {
+    if(titulo == null || titulo == "" || titulo == undefined)
       return false;
-    if (ti.length > 40) 
+    if (titulo.length > 40) 
       return false;
-    const padraoGenero = /[A-Z][a-z] */;
-    if (!padraoGenero.test(ti)) 
+    const padraoGenero = /[^A-Za-z0-9]+ /;
+    if (!padraoGenero.test(titulo)) 
       return false;
     return true;
   }
