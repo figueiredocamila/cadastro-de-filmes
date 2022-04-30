@@ -149,6 +149,7 @@ export default class CtrlManterFilmes {
           filme.setTitulo(titulo);
           filme.setGenero(genero);
           filme.setAno(ano);
+          filme.setCartaz(cartaz);
           await this.#dao.alterar(filme);
         }
         this.#status = Status.NAVEGANDO;
