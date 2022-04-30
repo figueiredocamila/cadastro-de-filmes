@@ -114,6 +114,7 @@ export default class ViewerFilme {
       this.tfTitulo.disabled = false;
       this.tfGenero.disabled = false;
       this.tfAno.disabled = false;
+      this.tfCartaz.disabled = false;
       this.divAviso.innerHTML = "";
     } else {
       this.divAviso.innerHTML = "Deseja excluir este registro?";
@@ -122,7 +123,6 @@ export default class ViewerFilme {
       this.tfCodigo.disabled = false;
       this.imgCartaz.hidden = true;
       this.divCartaz.hidden = false;
-      this.
       this.tfCodigo.value = "";
       this.tfTitulo.value = "";
       this.tfCartaz.value= "";
@@ -209,18 +209,10 @@ function fnBtOk() {
   const titulo = this.viewer.tfTitulo.value;
   const genero = this.viewer.tfGenero.value;
   const ano = this.viewer.tfAno.value;
+  const cartaz = this.viewe.tfCartaz.value;
 
-  // Como defini que o método "efetivar" é um dos métodos incluir, excluir ou alterar
-  // não estou precisando colocar os ninhos de IF abaixo.
-  this.viewer.getCtrl().efetivar(codigo, titulo, genero, ano);
+  this.viewer.getCtrl().efetivar(codigo, titulo, genero, ano, cartaz);
 
-  // if(this.viewer.getCtrl().getStatus() == Status.INCLUINDO) {
-  //  this.viewer.getCtrl().fnEfetivar(codigo, titulo, genero, ano);
-  //} else if(this.viewer.getCtrl().getStatus() == Status.ALTERANDO) {
-  //  this.viewer.getCtrl().alterar(codigo, titulo, genero, ano);
-  //} else if(this.viewer.getCtrl().getStatus() == Status.EXCLUINDO) {
-  //  this.viewer.getCtrl().excluir(codigo, titulo, genero, ano);
-  //}
 }
 
 //------------------------------------------------------------------------//

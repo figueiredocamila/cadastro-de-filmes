@@ -124,7 +124,7 @@ export default class CtrlManterFilmes {
 
   //-----------------------------------------------------------------------------------------//
 
-  async incluir(cod, titulo, genero, ano) {
+  async incluir(cod, titulo, genero, ano, cartaz) {
     if (this.#status == Status.INCLUINDO) {
       try {
         let filme = new Filme(cod, titulo, genero, ano, cartaz);
@@ -139,7 +139,7 @@ export default class CtrlManterFilmes {
 
   //-----------------------------------------------------------------------------------------//
 
-  async alterar(cod, titulo, genero, ano) {
+  async alterar(cod, titulo, genero, ano, cartaz) {
     if (this.#status == Status.ALTERANDO) {
       try {
         let filme = await this.#dao.obterFilmePeloCodigo(cod);
