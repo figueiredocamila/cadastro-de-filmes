@@ -52,14 +52,14 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   getCartaz() {
+    console.log(this.#cartaz)
     return this.#cartaz;
   }
 
   //-----------------------------------------------------------------------------------------//
 
   setCartaz(cartaz) {
-    console.log("cartaz", cartaz);
-    console.log("validacao", !Filme.validarCartaz(cartaz));
+    
     if (!Filme.validarCartaz(cartaz))
       throw new ModelError("Cartaz Inválido: " + cartaz);
     this.#cartaz = cartaz;
@@ -147,7 +147,6 @@ export default class Filme {
 
   static validarCartaz(cartaz) {
     if (cartaz == null || cartaz == "" || cartaz == undefined) return false;
-    if (cartaz.length > 40) return false;
     return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
       cartaz
     );
@@ -158,7 +157,7 @@ export default class Filme {
   static validarGenero(genero) {
     if (genero == null || genero == "" || genero == undefined) return false;
     if (genero.length > 40) return false;
-    return /[A-Z][a-z] */.test(genero);
+    return /(\w+)/.test(genero);
   }
 
   //-----------------------------------------------------------------------------------------//
