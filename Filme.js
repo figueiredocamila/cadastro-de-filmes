@@ -58,6 +58,8 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   setCartaz(cartaz) {
+    console.log("cartaz", cartaz);
+    console.log("validacao", !Filme.validarCartaz(cartaz));
     if (!Filme.validarCartaz(cartaz))
       throw new ModelError("Cartaz Inválido: " + cartaz);
     this.#cartaz = cartaz;
@@ -130,7 +132,7 @@ export default class Filme {
 
   static validarCodigo(cod) {
     if (cod == null || cod == "" || cod == undefined) return false;
-    return !/[0-9]/.test(cod);
+    return /[0-9]/.test(cod);
   }
 
   //-----------------------------------------------------------------------------------------//
@@ -138,17 +140,17 @@ export default class Filme {
   static validarTitulo(titulo) {
     if (titulo == null || titulo == "" || titulo == undefined) return false;
     if (titulo.length > 40) return false;
-    return !/[^A-Za-z0-9]+/.test(titulo);
+    return true;
   }
 
   //-----------------------------------------------------------------------------------------//
 
   static validarCartaz(cartaz) {
-    console.log("cartaz", cartaz);
-    console.log(/https?:\/\//.test(cartaz));
     if (cartaz == null || cartaz == "" || cartaz == undefined) return false;
     if (cartaz.length > 40) return false;
-    return !/https?:\/\//.test(cartaz);
+    return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(
+      cartaz
+    );
   }
 
   //-----------------------------------------------------------------------------------------//
@@ -156,14 +158,14 @@ export default class Filme {
   static validarGenero(genero) {
     if (genero == null || genero == "" || genero == undefined) return false;
     if (genero.length > 40) return false;
-    return !/[A-Z][a-z] */.test(genero);
+    return /[A-Z][a-z] */.test(genero);
   }
 
   //-----------------------------------------------------------------------------------------//
 
   static validarAno(ano) {
     if (ano == null || ano == "" || ano == undefined) return false;
-    return !/^\d{4}$/.test(ano);
+    return /^\d{4}$/.test(ano);
   }
 
   //-----------------------------------------------------------------------------------------//
