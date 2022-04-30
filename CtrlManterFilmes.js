@@ -1,27 +1,27 @@
 "use strict";
 
 import Status from "/Status.js";
-import Aluno from "/Aluno.js";
-import DaoAluno from "/DaoAluno.js";
-import ViewerAluno from "/ViewerAluno.js";
+import Filme from "/Filme.js";
+import DaoFilme from "/DaoFilme.js";
+import ViewerFilme from "/ViewerFilme.js";
 
-export default class CtrlManterAlunos {
+export default class CtrlManterFilmes {
   
   //-----------------------------------------------------------------------------------------//
 
   //
   // Atributos do Controlador
   //
-  #dao;      // Referência para o Data Access Object para o Store de Alunos
+  #dao;      // Referência para o Data Access Object para o Store de Filmes
   #viewer;   // Referência para o gerenciador do viewer 
-  #posAtual; // Indica a posição do objeto Aluno que estiver sendo apresentado
+  #posAtual; // Indica a posição do objeto Filme que estiver sendo apresentado
   #status;   // Indica o que o controlador está fazendo 
   
   //-----------------------------------------------------------------------------------------//
 
   constructor() {
-    this.#dao = new DaoAluno();
-    this.#viewer = new ViewerAluno(this);
+    this.#dao = new DaoFilme();
+    this.#viewer = new ViewerFilme(this);
     this.#posAtual = 1;
     this.#atualizarContextoNavegacao();    
   }
@@ -35,11 +35,11 @@ export default class CtrlManterAlunos {
     // Determina ao viewer que ele está apresentando dos dados 
     this.#viewer.statusApresentacao();
     
-    // Solicita ao DAO que dê a lista de todos os alunos presentes na base
-    let conjAlunos = await this.#dao.obterAlunos();
+    // Solicita ao DAO que dê a lista de todos os filmes presentes na base
+    let conjFilmes = await this.#dao.obterFilmes();
     
-    // Se a lista de alunos estiver vazia
-    if(conjAlunos.length == 0) {
+    // Se a lista de filmes estiver vazia
+    if(conjFilmes.length == 0) {
       // Posição Atual igual a zero indica que não há objetos na base
       this.#posAtual = 0;
       
@@ -48,18 +48,18 @@ export default class CtrlManterAlunos {
     }
     else {
       // Se é necessário ajustar a posição atual, determino que ela passa a ser 1
-      if(this.#posAtual == 0 || this.#posAtual > conjAlunos.length)
+      if(this.#posAtual == 0 || this.#posAtual > conjFilmes.length)
         this.#posAtual = 1;
       // Peço ao viewer que apresente o objeto da posição atual
-      this.#viewer.apresentar(this.#posAtual, conjAlunos.length, conjAlunos[this.#posAtual - 1]);
+      this.#viewer.apresentar(this.#posAtual, conjFilmes.length, conjFilmes[this.#posAtual - 1]);
     }
   }
   
   //-----------------------------------------------------------------------------------------//
 
   async apresentarPrimeiro() {
-    let conjAlunos = await this.#dao.obterAlunos();
-    if(conjAlunos.length > 0)
+    let conjFilmes = await this.#dao.obterFilmes();
+    if(conjFilmes.length > 0)
       this.#posAtual = 1;
     this.#atualizarContextoNavegacao();
   }
@@ -67,8 +67,8 @@ export default class CtrlManterAlunos {
   //-----------------------------------------------------------------------------------------//
 
   async apresentarProximo() {
-    let conjAlunos = await this.#dao.obterAlunos();
-    if(this.#posAtual < conjAlunos.length)
+    let conjFilmes = await this.#dao.obterFilmes();
+    if(this.#posAtual < conjFilmes.length)
       this.#posAtual++;
     this.#atualizarContextoNavegacao();
   }
@@ -76,7 +76,7 @@ export default class CtrlManterAlunos {
   //-----------------------------------------------------------------------------------------//
 
   async apresentarAnterior() {
-    let conjAlunos = await this.#dao.obterAlunos();
+    let conjFilmes = await this.#dao.obterFilmes();
     if(this.#posAtual > 1)
       this.#posAtual--;
     this.#atualizarContextoNavegacao();
@@ -85,8 +85,8 @@ export default class CtrlManterAlunos {
   //-----------------------------------------------------------------------------------------//
 
   async apresentarUltimo() {
-    let conjAlunos = await this.#dao.obterAlunos();
-    this.#posAtual = conjAlunos.length;
+    let conjFilmes = await this.#dao.obterFilmes();
+    this.#posAtual = conjFilmes.length;
     this.#atualizarContextoNavegacao();
   }
 
@@ -125,11 +125,11 @@ export default class CtrlManterAlunos {
 
   //-----------------------------------------------------------------------------------------//
  
-  async incluir(matr, cpf, nome, email, telefone) {
+  async incluir(cod, titulo, genero, ano) {
     if(this.#status == Status.INCLUINDO) {
       try {
-        let aluno = new Aluno(matr, cpf, nome, email, telefone);
-        await this.#dao.incluir(aluno); 
+        let filme = new Filme(cod, titulo, genero, ano);
+        await this.#dao.incluir(filme); 
         this.#status = Status.NAVEGANDO;
         this.#atualizarContextoNavegacao();
       }
@@ -141,18 +141,17 @@ export default class CtrlManterAlunos {
 
   //-----------------------------------------------------------------------------------------//
  
-  async alterar(matr, cpf, nome, email, telefone) {
+  async alterar(cod, titulo, genero, ano) {
     if(this.#status == Status.ALTERANDO) {
       try {
-        let aluno = await this.#dao.obterAlunoPelaMatricula(matr); 
-        if(aluno == null) {
-          alert("Aluno com a matrícula " + matr + " não encontrado.");
+        let filme = await this.#dao.obterFilmePeloCodigo(cod); 
+        if(filme == null) {
+          alert("Filme com o código " + cod + " não encontrado.");
         } else {
-          aluno.setCpf(cpf);
-          aluno.setNome(nome);
-          aluno.setEmail(email);
-          aluno.setTelefone(telefone);
-          await this.#dao.alterar(aluno); 
+          filme.setTitulo(titulo);
+          filme.setGenero(genero);
+          filme.setAno(ano);
+          await this.#dao.alterar(filme); 
         }
         this.#status = Status.NAVEGANDO;
         this.#atualizarContextoNavegacao();
@@ -165,14 +164,14 @@ export default class CtrlManterAlunos {
 
   //-----------------------------------------------------------------------------------------//
  
-  async excluir(matr) {
+  async excluir(cod) {
     if(this.#status == Status.EXCLUINDO) {
       try {
-        let aluno = await this.#dao.obterAlunoPelaMatricula(matr); 
-        if(aluno == null) {
-          alert("Aluno com a matrícula " + matr + " não encontrado.");
+        let filme = await this.#dao.obterFilmePeloCodigo(cod); 
+        if(filme == null) {
+          alert("Filme com o código " + cod + " não encontrado.");
         } else {
-          await this.#dao.excluir(aluno); 
+          await this.#dao.excluir(filme); 
         }
         this.#status = Status.NAVEGANDO;
         this.#atualizarContextoNavegacao();

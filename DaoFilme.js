@@ -1,16 +1,16 @@
 "use strict";
 
 import ModelError from "/ModelError.js";
-import Aluno from "/Aluno.js";
+import Filme from "/Filme.js";
 
-export default class DaoAluno {
+export default class DaoFilme {
   
   //-----------------------------------------------------------------------------------------//
 
   static conexao = null;
 
   constructor() {
-    this.arrayAlunos = [];
+    this.arrayFilmes = [];
     this.obterConexao();
   }
 
@@ -20,16 +20,16 @@ export default class DaoAluno {
    *  Devolve uma Promise com a referência para o BD
    */ 
   async obterConexao() {
-    if(DaoAluno.conexao == null) {
-      DaoAluno.conexao = new Promise(function(resolve, reject) {
-        let requestDB = window.indexedDB.open("AlunoDB", 1); 
+    if(DaoFilme.conexao == null) {
+      DaoFilme.conexao = new Promise(function(resolve, reject) {
+        let requestDB = window.indexedDB.open("FilmeDB", 1); 
 
         requestDB.onupgradeneeded = (event) => {
           let db = event.target.result;
-          let store = db.createObjectStore("AlunoST", {
+          let store = db.createObjectStore("FilmeST", {
             autoIncrement: true
           });
-          store.createIndex("idxMatricula", "matricula", { unique: true });
+          store.createIndex("idxCodigo", "codigo", { unique: true });
         };
 
         requestDB.onerror = event => {
@@ -46,21 +46,21 @@ export default class DaoAluno {
         };
       });
     }
-    return await DaoAluno.conexao;
+    return await DaoFilme.conexao;
   }
   
   //-----------------------------------------------------------------------------------------//
 
-  async obterAlunos() {
+  async obterFilmes() {
     let connection = await this.obterConexao();      
     let promessa = new Promise(function(resolve, reject) {
       let transacao;
       let store;
       let indice;
       try {
-        transacao = connection.transaction(["AlunoST"], "readonly");
-        store = transacao.objectStore("AlunoST");
-        indice = store.index('idxMatricula');
+        transacao = connection.transaction(["FilmeST"], "readonly");
+        store = transacao.objectStore("FilmeST");
+        indice = store.index('idxCodigo');
       } 
       catch (e) {
         reject(new ModelError("Erro: " + e));
@@ -69,7 +69,7 @@ export default class DaoAluno {
       indice.openCursor().onsuccess = function(event) {
         var cursor = event.target.result;
         if (cursor) {        
-          const novo = Aluno.assign(cursor.value);
+          const novo = Filme.assign(cursor.value);
           array.push(novo);
           cursor.continue();
         } else {
@@ -77,50 +77,50 @@ export default class DaoAluno {
         }
       };
     });
-    this.arrayAlunos = await promessa;
-    return this.arrayAlunos;
+    this.arrayFilmes = await promessa;
+    return this.arrayFilmes;
   }
 
   //-----------------------------------------------------------------------------------------//
 
-  async obterAlunoPelaMatricula(matr) {
+  async obterFilmePeloCodigo(cod) {
     let connection = await this.obterConexao();      
     let promessa = new Promise(function(resolve, reject) {
       let transacao;
       let store;
       let indice;
       try {
-        transacao = connection.transaction(["AlunoST"], "readonly");
-        store = transacao.objectStore("AlunoST");
-        indice = store.index('idxMatricula');
+        transacao = connection.transaction(["FilmeST"], "readonly");
+        store = transacao.objectStore("FilmeST");
+        indice = store.index('idxCodigo');
       } 
       catch (e) {
         reject(new ModelError("Erro: " + e));
       }
 
-      let consulta = indice.get(matr);
+      let consulta = indice.get(cod);
       consulta.onsuccess = function(event) { 
         if(consulta.result != null)
-          resolve(Aluno.assign(consulta.result)); 
+          resolve(Filme.assign(consulta.result)); 
         else
           resolve(null);
       };
       consulta.onerror = function(event) { reject(null); };
     });
-    let aluno = await promessa;
-    return aluno;
+    let filme = await promessa;
+    return filme;
   }
 
   //-----------------------------------------------------------------------------------------//
 
-  async obterAlunosPeloAutoIncrement() {
+  async obterFilmesPeloAutoIncrement() {
     let connection = await this.obterConexao();      
     let promessa = new Promise(function(resolve, reject) {
       let transacao;
       let store;
       try {
-        transacao = connection.transaction(["AlunoST"], "readonly");
-        store = transacao.objectStore("AlunoST");
+        transacao = connection.transaction(["FilmeST"], "readonly");
+        store = transacao.objectStore("FilmeST");
       } 
       catch (e) {
         reject(new ModelError("Erro: " + e));
@@ -129,7 +129,7 @@ export default class DaoAluno {
       store.openCursor().onsuccess = function(event) {
         var cursor = event.target.result;
         if (cursor) {        
-          const novo = Aluno.assign(cursor.value);
+          const novo = Filme.assign(cursor.value);
           array.push(novo);
           cursor.continue();
         } else {
@@ -137,21 +137,21 @@ export default class DaoAluno {
         }
       };
     });
-    this.arrayAlunos = await promessa;
-    return this.arrayAlunos;
+    this.arrayFilmes = await promessa;
+    return this.arrayFilmes;
   }
 
   //-----------------------------------------------------------------------------------------//
 
-  async incluir(aluno) {
+  async incluir(filme) {
     let connection = await this.obterConexao();      
     let resultado = new Promise( (resolve, reject) => {
-      let transacao = connection.transaction(["AlunoST"], "readwrite");
+      let transacao = connection.transaction(["FilmeST"], "readwrite");
       transacao.onerror = event => {
-        reject(new ModelError("Não foi possível incluir o aluno", event.target.error));
+        reject(new ModelError("Não foi possível incluir o filme", event.target.error));
       };
-      let store = transacao.objectStore("AlunoST");
-      let requisicao = store.add(Aluno.deassign(aluno));
+      let store = transacao.objectStore("FilmeST");
+      let requisicao = store.add(Filme.deassign(filme));
       requisicao.onsuccess = function(event) {
           resolve(true);              
       };
@@ -161,29 +161,29 @@ export default class DaoAluno {
 
   //-----------------------------------------------------------------------------------------//
 
-  async alterar(aluno) {
+  async alterar(filme) {
     let connection = await this.obterConexao();      
     let resultado = new Promise(function(resolve, reject) {
-      let transacao = connection.transaction(["AlunoST"], "readwrite");
+      let transacao = connection.transaction(["FilmeST"], "readwrite");
       transacao.onerror = event => {
-        reject(new ModelError("Não foi possível alterar o aluno", event.target.error));
+        reject(new ModelError("Não foi possível alterar o filme", event.target.error));
       };
-      let store = transacao.objectStore("AlunoST");     
-      let indice = store.index('idxMatricula');
-      var keyValue = IDBKeyRange.only(aluno.getMatricula());
+      let store = transacao.objectStore("FilmeST");     
+      let indice = store.index('idxCodigo');
+      var keyValue = IDBKeyRange.only(filme.getCodigo());
       indice.openCursor(keyValue).onsuccess = event => {
         const cursor = event.target.result;
         if (cursor) {
-          if (cursor.value.matricula == aluno.getMatricula()) {
-            const request = cursor.update(Aluno.deassign(aluno));
+          if (cursor.value.codigo == filme.getCodigo()) {
+            const request = cursor.update(Filme.deassign(filme));
             request.onsuccess = () => {
-              console.log("[DaoAluno.alterar] Cursor update - Sucesso ");
+              console.log("[DaoFilme.alterar] Cursor update - Sucesso ");
               resolve("Ok");
               return;
             };
           } 
         } else {
-          reject(new ModelError("Aluno com a matrícula " + aluno.getMatricula() + " não encontrado!",""));
+          reject(new ModelError("Filme com a codícula " + filme.getCodigo() + " não encontrado!",""));
         }
       };
     });
@@ -192,20 +192,20 @@ export default class DaoAluno {
   
   //-----------------------------------------------------------------------------------------//
 
-  async excluir(aluno) {
+  async excluir(filme) {
     let connection = await this.obterConexao();      
     let transacao = await new Promise(function(resolve, reject) {
-      let transacao = connection.transaction(["AlunoST"], "readwrite");
+      let transacao = connection.transaction(["FilmeST"], "readwrite");
       transacao.onerror = event => {
-        reject(new ModelError("Não foi possível excluir o aluno", event.target.error));
+        reject(new ModelError("Não foi possível excluir o filme", event.target.error));
       };
-      let store = transacao.objectStore("AlunoST");
-      let indice = store.index('idxMatricula');
-      var keyValue = IDBKeyRange.only(aluno.getMatricula());
+      let store = transacao.objectStore("FilmeST");
+      let indice = store.index('idxCodigo');
+      var keyValue = IDBKeyRange.only(filme.getCodigo());
       indice.openCursor(keyValue).onsuccess = event => {
         const cursor = event.target.result;
         if (cursor) {
-          if (cursor.value.matricula == aluno.getMatricula()) {
+          if (cursor.value.codigo == filme.getCodigo()) {
             const request = cursor.delete();
             request.onsuccess = () => { 
               resolve("Ok"); 
@@ -213,7 +213,7 @@ export default class DaoAluno {
             return;
           }
         } else {
-          reject(new ModelError("Aluno com a matrícula " + aluno.getMatricula() + " não encontrado!",""));
+          reject(new ModelError("Filme com a codícula " + filme.getCodigo() + " não encontrado!",""));
         }
       };
     });
