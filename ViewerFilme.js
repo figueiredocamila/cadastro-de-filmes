@@ -88,7 +88,7 @@ export default class ViewerFilme {
       this.tfGenero.value = filme.getGenero();
       this.tfAno.value = filme.getAno();
       this.imgCartaz.src = filme.getCartaz();
-      this.divCartaz.style.display = "none";
+      this.divCartaz.hidden = true;
       this.divAviso.innerHTML =
         "Posição: " + pos + " | Número de Filmes: " + qtde;
     }
@@ -114,7 +114,7 @@ export default class ViewerFilme {
       this.tfTitulo.disabled = false;
       this.tfGenero.disabled = false;
       this.tfAno.disabled = false;
-      this.divCartaz.hidden = true;
+      this.divCartaz.hidden = false;
       this.tfCartaz.disabled = false;
       this.divAviso.innerHTML = "";
     } else {
