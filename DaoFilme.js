@@ -183,7 +183,7 @@ export default class DaoFilme {
             };
           } 
         } else {
-          reject(new ModelError("Filme com a codícula " + filme.getCodigo() + " não encontrado!",""));
+          reject(new ModelError("Filme com a código " + filme.getCodigo() + " não encontrado!",""));
         }
       };
     });
@@ -213,7 +213,7 @@ export default class DaoFilme {
             return;
           }
         } else {
-          reject(new ModelError("Filme com a codícula " + filme.getCodigo() + " não encontrado!",""));
+          reject(new ModelError("Filme com a código " + filme.getCodigo() + " não encontrado!",""));
         }
       };
     });
