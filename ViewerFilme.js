@@ -32,9 +32,9 @@ export default class ViewerFilme {
     this.tfGenero = this.obterElemento("tfGenero");
     this.tfAno = this.obterElemento("tfAno");
     this.tfUrl = this.obterElemento("tfUrl");
-    this.divCartaz = this.obterElemento("divCartaz")
-    this.imgCartaz = this.obterElemento("imgCartaz")
-    this.tfCartaz = this.obterElemento("tfCartaz")
+    this.divCartaz = this.obterElemento("divCartaz");
+    this.imgCartaz = this.obterElemento("imgCartaz");
+    this.tfCartaz = this.obterElemento("tfCartaz");
 
     this.btPrimeiro.onclick = fnBtPrimeiro;
     this.btProximo.onclick = fnBtProximo;
@@ -80,13 +80,16 @@ export default class ViewerFilme {
       this.tfGenero.value = "";
       this.tfAno.value = "";
       this.divCartaz.style.display = "none";
+      this.imgCartaz.src =
+        "https://cdn.glitch.global/93964efc-b12c-4cad-bbfd-38320806ea71/af-cartaz.jpeg?v=1651346030657";
       this.divAviso.innerHTML = " Número de Filmes: 0";
     } else {
       this.tfCodigo.value = filme.getCodigo();
       this.tfTitulo.value = filme.getTitulo();
       this.tfGenero.value = filme.getGenero();
       this.tfAno.value = filme.getAno();
-      this.imgCartaz.src = filme.getUrl();
+      // this.imgCartaz.src =
+      //   "https://cdn.glitch.global/93964efc-b12c-4cad-bbfd-38320806ea71/af-cartaz.jpeg?v=1651346030657";
       this.divAviso.innerHTML =
         "Posição: " + pos + " | Número de Filmes: " + qtde;
     }
