@@ -31,7 +31,6 @@ export default class ViewerFilme {
     this.tfTitulo = this.obterElemento("tfTitulo");
     this.tfGenero = this.obterElemento("tfGenero");
     this.tfAno = this.obterElemento("tfAno");
-    this.tfUrl = this.obterElemento("tfUrl");
     this.divCartaz = this.obterElemento("divCartaz");
     this.imgCartaz = this.obterElemento("imgCartaz");
     this.tfCartaz = this.obterElemento("tfCartaz");
@@ -88,8 +87,7 @@ export default class ViewerFilme {
       this.tfTitulo.value = filme.getTitulo();
       this.tfGenero.value = filme.getGenero();
       this.tfAno.value = filme.getAno();
-      // this.imgCartaz.src =
-      //   "https://cdn.glitch.global/93964efc-b12c-4cad-bbfd-38320806ea71/af-cartaz.jpeg?v=1651346030657";
+      this.imgCartaz.src = filme.getCartaz();
       this.divAviso.innerHTML =
         "Posição: " + pos + " | Número de Filmes: " + qtde;
     }
