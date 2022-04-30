@@ -9,14 +9,16 @@ export default class Filme {
   #titulo;
   #genero;
   #ano;
+  #cartaz;
 
   //-----------------------------------------------------------------------------------------//
 
-  constructor(cod, titulo, genero, ano) {
+  constructor(cod, titulo, genero, ano, cartaz) {
     this.setCodigo(cod);
     this.setTitulo(titulo);
     this.setGenero(genero);
     this.setAno(ano);
+    this.setCartaz(cartaz);
   }
 
   //-----------------------------------------------------------------------------------------//
@@ -45,6 +47,20 @@ export default class Filme {
     if (!Filme.validarTitulo(titulo))
       throw new ModelError("Título Inválido: " + titulo);
     this.#titulo = titulo;
+  }
+
+  //-----------------------------------------------------------------------------------------//
+
+  getCartaz() {
+    return this.#cartaz;
+  }
+
+  //-----------------------------------------------------------------------------------------//
+
+  setCartaz(cartaz) {
+    if (!Filme.validarCartaz(cartaz))
+      throw new ModelError("Cartaz Inválido: " + cartaz);
+    this.#cartaz = cartaz;
   }
 
   //-----------------------------------------------------------------------------------------//
@@ -85,6 +101,9 @@ export default class Filme {
       '"titulo" :  "' +
       this.#titulo +
       '",' +
+      '"cartaz" : "' +
+      this.#cartaz +
+      '",' +
       '"genero" : "' +
       this.#genero +
       '",' +
@@ -98,7 +117,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   static assign(obj) {
-    return new Filme(obj.codigo, obj.titulo, obj.genero, obj.ano);
+    return new Filme(obj.codigo, obj.titulo, obj.cartaz, obj.genero, obj.ano);
   }
 
   //-----------------------------------------------------------------------------------------//
@@ -124,6 +143,19 @@ export default class Filme {
     // const padraoTitulo = /[^A-Za-z0-9]+/;
     // if (!padraoTitulo.test(titulo))
     //   return false;
+    return true;
+  }
+  
+   //-----------------------------------------------------------------------------------------//
+
+  static validarCartaz(cartaz) {
+    console.log('cartaz', cartaz)
+    console.log(/https?:\/\//.test(cartaz))
+    if (cartaz == null || cartaz == "" || cartaz == undefined) return false;
+    if (cartaz.length > 40) return false;
+    const padraoCartaz = /https?:\/\//;
+    if (!padraoCartaz.test(cartaz))
+      return false;
     return true;
   }
 

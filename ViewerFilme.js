@@ -209,7 +209,7 @@ function fnBtOk() {
   const titulo = this.viewer.tfTitulo.value;
   const genero = this.viewer.tfGenero.value;
   const ano = this.viewer.tfAno.value;
-  const cartaz = this.viewe.tfCartaz.value;
+  const cartaz = this.viewer.tfCartaz.value;
 
   this.viewer.getCtrl().efetivar(codigo, titulo, genero, ano, cartaz);
 
