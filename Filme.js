@@ -132,7 +132,7 @@ export default class Filme {
 
   static validarCodigo(cod) {
     if (cod == null || cod == "" || cod == undefined) return false;
-    return /[0-9]/.test(cod);
+    return /\b([1-9]|[1-9][0-9]|100)\b/.test(cod);
   }
 
   //-----------------------------------------------------------------------------------------//
