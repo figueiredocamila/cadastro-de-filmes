@@ -151,6 +151,7 @@ export default class CtrlManterFilmes {
           filme.setAno(ano);
           filme.setCartaz(cartaz);
           await this.#dao.alterar(filme);
+          
         }
         this.#status = Status.NAVEGANDO;
         this.#atualizarContextoNavegacao();
