@@ -114,6 +114,7 @@ export default class ViewerFilme {
       this.tfTitulo.disabled = false;
       this.tfGenero.disabled = false;
       this.tfAno.disabled = false;
+      this.divCartaz.hidden = true;
       this.tfCartaz.disabled = false;
       this.divAviso.innerHTML = "";
     } else {

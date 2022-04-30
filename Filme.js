@@ -119,7 +119,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   static assign(obj) {
-    return new Filme(obj.codigo, obj.titulo, obj.cartaz, obj.genero, obj.ano);
+    return new Filme(obj.codigo, obj.titulo, obj.genero, obj.ano, obj.cartaz);
   }
 
   //-----------------------------------------------------------------------------------------//
