@@ -32,6 +32,9 @@ export default class ViewerFilme {
     this.tfGenero = this.obterElemento("tfGenero");
     this.tfAno = this.obterElemento("tfAno");
     this.tfUrl = this.obterElemento("tfUrl");
+    this.divCartaz = this.obterElemento("divCartaz")
+    this.imgCartaz = this.obterElemento("imgCartaz")
+    this.tfCartaz = this.obterElemento("tfCartaz")
 
     this.btPrimeiro.onclick = fnBtPrimeiro;
     this.btProximo.onclick = fnBtProximo;
@@ -76,14 +79,14 @@ export default class ViewerFilme {
       this.tfTitulo.value = "";
       this.tfGenero.value = "";
       this.tfAno.value = "";
-      this.tfUrl.value = "";
+      this.divCartaz.style.display = "none";
       this.divAviso.innerHTML = " Número de Filmes: 0";
     } else {
       this.tfCodigo.value = filme.getCodigo();
       this.tfTitulo.value = filme.getTitulo();
       this.tfGenero.value = filme.getGenero();
       this.tfAno.value = filme.getAno();
-      this.tfUrl.value = filme.getUrl();
+      this.imgCartaz.src = filme.getUrl();
       this.divAviso.innerHTML =
         "Posição: " + pos + " | Número de Filmes: " + qtde;
     }
