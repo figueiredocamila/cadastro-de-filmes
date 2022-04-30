@@ -78,9 +78,9 @@ export default class ViewerFilme {
       this.tfTitulo.value = "";
       this.tfGenero.value = "";
       this.tfAno.value = "";
-      this.divCartaz.style.display = "none";
+      this.divCartaz.hidden = true;
       this.imgCartaz.src =
-        "https://cdn.glitch.global/93964efc-b12c-4cad-bbfd-38320806ea71/af-cartaz.jpeg?v=1651346030657";
+        "https://cdn.glitch.global/93964efc-b12c-4cad-bbfd-38320806ea71/sem-video.png?v=1651344969502";
       this.divAviso.innerHTML = " Número de Filmes: 0";
     } else {
       this.tfCodigo.value = filme.getCodigo();
@@ -88,6 +88,7 @@ export default class ViewerFilme {
       this.tfGenero.value = filme.getGenero();
       this.tfAno.value = filme.getAno();
       this.imgCartaz.src = filme.getCartaz();
+      this.divCartaz.style.display = "none";
       this.divAviso.innerHTML =
         "Posição: " + pos + " | Número de Filmes: " + qtde;
     }
@@ -119,17 +120,21 @@ export default class ViewerFilme {
     }
     if (operacao == Status.INCLUINDO) {
       this.tfCodigo.disabled = false;
+      this.imgCartaz.hidden = true;
+      this.divCartaz.hidden = false;
+      this.
       this.tfCodigo.value = "";
       this.tfTitulo.value = "";
+      this.tfCartaz.value= "";
       this.tfGenero.value = "";
       this.tfAno.value = "";
+      
     }
   }
 
   //------------------------------------------------------------------------//
 
   statusApresentacao() {
-    this.tfTitulo.disabled = true;
     this.divNavegar.hidden = false;
     this.divComandos.hidden = false;
     this.divDialogo.hidden = true;
