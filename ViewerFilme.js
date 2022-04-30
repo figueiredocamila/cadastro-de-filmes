@@ -83,6 +83,7 @@ export default class ViewerFilme {
       this.tfTitulo.value = filme.getTitulo();
       this.tfGenero.value = filme.getGenero();
       this.tfAno.value = filme.getAno();
+      this.tfUrl.value = filme.getUrl();
       this.divAviso.innerHTML =
         "Posição: " + pos + " | Número de Filmes: " + qtde;
     }
