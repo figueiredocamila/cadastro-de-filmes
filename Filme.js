@@ -123,6 +123,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   static validarGenero(genero) {
+    console.log(typeof genero)
     
     if(genero == null || genero == "" || genero == undefined)
       return false;
@@ -130,8 +131,9 @@ export default class Filme {
     if (genero.length > 40) 
       return false;
     
-    const padraoGenero = /[A-Z][a-z]/;
-    if (!padraoGenero.test(genero)) 
+    // const padraoGenero = ;
+    
+    if (!/[A-Z][a-z]/.test(genero)) 
       return false;
     
     return true;
