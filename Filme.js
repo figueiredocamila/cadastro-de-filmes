@@ -30,7 +30,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   setCodigo(cod) {
-    if (Filme.validarCodigo(cod))
+    if (!Filme.validarCodigo(cod))
       throw new ModelError("Código Inválido: " + cod);
     this.#codigo = cod;
   }
@@ -44,7 +44,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   setTitulo(titulo) {
-    if (Filme.validarTitulo(titulo))
+    if (!Filme.validarTitulo(titulo))
       throw new ModelError("Título Inválido: " + titulo);
     this.#titulo = titulo;
   }
@@ -58,7 +58,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   setCartaz(cartaz) {
-    if (Filme.validarCartaz(cartaz))
+    if (!Filme.validarCartaz(cartaz))
       throw new ModelError("Cartaz Inválido: " + cartaz);
     this.#cartaz = cartaz;
   }
@@ -72,7 +72,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   setGenero(genero) {
-    if (Filme.validarGenero(genero))
+    if (!Filme.validarGenero(genero))
       throw new ModelError("Genero Inválido: " + genero);
     this.#genero = genero;
   }
@@ -86,7 +86,7 @@ export default class Filme {
   //-----------------------------------------------------------------------------------------//
 
   setAno(ano) {
-    if (Filme.validarAno(ano)) throw new ModelError("Ano inválido: " + ano);
+    if (!Filme.validarAno(ano)) throw new ModelError("Ano inválido: " + ano);
     this.#ano = ano;
   }
 
@@ -130,7 +130,7 @@ export default class Filme {
 
   static validarCodigo(cod) {
     if (cod == null || cod == "" || cod == undefined) return false;
-    return /[0-9]/.test(cod);
+    return !/[0-9]/.test(cod);
   }
 
   //-----------------------------------------------------------------------------------------//
@@ -138,18 +138,17 @@ export default class Filme {
   static validarTitulo(titulo) {
     if (titulo == null || titulo == "" || titulo == undefined) return false;
     if (titulo.length > 40) return false;
-    return /[^A-Za-z0-9]+/.test(titulo);
+    return !/[^A-Za-z0-9]+/.test(titulo);
   }
-  
-   //-----------------------------------------------------------------------------------------//
+
+  //-----------------------------------------------------------------------------------------//
 
   static validarCartaz(cartaz) {
-    console.log('cartaz', cartaz)
-    console.log(/https?:\/\//.test(cartaz))
+    console.log("cartaz", cartaz);
+    console.log(/https?:\/\//.test(cartaz));
     if (cartaz == null || cartaz == "" || cartaz == undefined) return false;
     if (cartaz.length > 40) return false;
-    return /https?:\/\//.test(cartaz)
-
+    return !/https?:\/\//.test(cartaz);
   }
 
   //-----------------------------------------------------------------------------------------//
@@ -157,14 +156,14 @@ export default class Filme {
   static validarGenero(genero) {
     if (genero == null || genero == "" || genero == undefined) return false;
     if (genero.length > 40) return false;
-    return /[A-Z][a-z] */.test(genero);
+    return !/[A-Z][a-z] */.test(genero);
   }
 
   //-----------------------------------------------------------------------------------------//
 
   static validarAno(ano) {
     if (ano == null || ano == "" || ano == undefined) return false;
-    return /^\d{4}$/.test(ano);
+    return !/^\d{4}$/.test(ano);
   }
 
   //-----------------------------------------------------------------------------------------//

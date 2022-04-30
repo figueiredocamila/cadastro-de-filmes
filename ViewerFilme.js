@@ -125,7 +125,7 @@ export default class ViewerFilme {
       this.divCartaz.hidden = false;
       this.tfCodigo.value = "";
       this.tfTitulo.value = "";
-      this.tfCartaz.value= "";
+      this.tfCartaz.value = "";
       this.tfGenero.value = "";
       this.tfAno.value = "";
       
@@ -138,10 +138,13 @@ export default class ViewerFilme {
     this.divNavegar.hidden = false;
     this.divComandos.hidden = false;
     this.divDialogo.hidden = true;
+    this.imgCartaz.hidden = false;
     this.tfCodigo.disabled = true;
     this.tfTitulo.disabled = true;
+    this.divCartaz.hidden = true;
     this.tfGenero.disabled = true;
     this.tfAno.disabled = true;
+    
   }
 }
 
