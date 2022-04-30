@@ -44,7 +44,7 @@ export default class Filme {
 
   setTitulo(titulo) {
     if(!Filme.validarTitulo(titulo))
-      throw new ModelError("CPF Inválido: " + titulo);
+      throw new ModelError("Título Inválido: " + titulo);
     this.#titulo = titulo;
   }
   
@@ -117,22 +117,23 @@ export default class Filme {
       return false;
     if (titulo.length > 40) 
       return false;
-    const padraoGenero = /[^A-Za-z0-9]+ /;
-    if (!padraoGenero.test(titulo)) 
-      return false;
     return true;
   }
 
   //-----------------------------------------------------------------------------------------//
 
   static validarGenero(genero) {
+    
     if(genero == null || genero == "" || genero == undefined)
       return false;
+    
     if (genero.length > 40) 
       return false;
-    const padraoGenero = /[A-Z][a-z] */;
+    
+    const padraoGenero = /[A-Z][a-z]/;
     if (!padraoGenero.test(genero)) 
       return false;
+    
     return true;
   }
 
