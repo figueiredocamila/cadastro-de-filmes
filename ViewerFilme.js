@@ -109,7 +109,6 @@ export default class ViewerFilme {
   //------------------------------------------------------------------------//
 
   statusEdicao(operacao) {
-    console.log(Status.getStatus())
     this.txtOperacao.innerHTML = operacao;
     this.divNavegar.hidden = true;
     this.divComandos.hidden = true;
