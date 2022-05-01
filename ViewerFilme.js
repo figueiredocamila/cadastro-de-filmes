@@ -34,6 +34,8 @@ export default class ViewerFilme {
     this.divCartaz = this.obterElemento("divCartaz");
     this.imgCartaz = this.obterElemento("imgCartaz");
     this.tfCartaz = this.obterElemento("tfCartaz");
+    
+    this.txtOperacao = this.obterElemento("txtOperacao");
 
     this.btPrimeiro.onclick = fnBtPrimeiro;
     this.btProximo.onclick = fnBtProximo;
@@ -88,6 +90,7 @@ export default class ViewerFilme {
       this.tfGenero.value = filme.getGenero();
       this.tfAno.value = filme.getAno();
       this.imgCartaz.src = filme.getCartaz();
+      this.tfCartaz.value = filme.getCartaz();
       this.divCartaz.hidden = true;
       this.divAviso.innerHTML =
         "Posição: " + pos + " | Número de Filmes: " + qtde;
@@ -106,6 +109,8 @@ export default class ViewerFilme {
   //------------------------------------------------------------------------//
 
   statusEdicao(operacao) {
+    console.log(Status.getStatus())
+    this.txtOperacao.innerHTML = operacao;
     this.divNavegar.hidden = true;
     this.divComandos.hidden = true;
     this.divDialogo.hidden = false;

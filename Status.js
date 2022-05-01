@@ -10,4 +10,8 @@ export default class Status {
   constructor(nome) {
     this.#nome = nome;
   }  
+  
+  getStatus() {
+    return this.#nome;
+  }
 }
